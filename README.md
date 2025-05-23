@@ -1,4 +1,6 @@
 # FLEX AQA Experments Code
+[![Project Page](https://img.shields.io/badge/Project-Page-8A2BE2)](https://haoyin116.github.io/FLEX_Dataset/)
+[![Page Views Count](https://badges.toozhao.com/badges/01JVNNN837B0VMFVDGT55N9NR6/blue.svg)](https://badges.toozhao.com/stats/01JVNNN837B0VMFVDGT55N9NR6 "Get your own page views count badge on badges.toozhao.com")
 
 This repository is the official implementation of FLEX Dataset Baseline.
 
