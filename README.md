@@ -43,6 +43,21 @@ To evaluate my model on ImageNet, run:
 ```eval
 bash ./scripts/test.sh 0 Seven try --Seven_cls 1
 ```
+
+Please feel free to reach out to me if you have any questions or face any problems.
+
+#### Citation
+
+If you find our work useful, please consider citing:
+```
+@article{yin2025flex,
+      title={FLEX: A Large-Scale Multi-Modal Multi-Action Dataset for Fitness Action Quality Assessment}, 
+      author={Hao Yin, Lijun Gu, Paritosh Parmar, Lin Xu, Tianxiao Guo, Weiwei Fu, Yang Zhang, Tianyou Zheng},
+      journal={arXiv preprint arXiv:2506.03198},
+      year={2025},
+      }
+```
+
 #### Contributing
 
 Our code is based on [CoRe](https://github.com/yuxumin/CoRe). Thanks for their great work!
