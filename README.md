@@ -38,7 +38,7 @@ bash ./scripts/train.sh 0 Seven try --Seven_cls 1
 >📋 In FLEX, the Seven_cls can be in the range of 1 to 20. 
 #### Evaluation
 
-To evaluate my model on ImageNet, run:
+To evaluate the models, run:
 
 ```eval
 bash ./scripts/test.sh 0 Seven try --Seven_cls 1
