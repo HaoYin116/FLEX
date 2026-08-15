@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="Dst6Y9H2OFjWN1-A6Fbdb3zR8XQkym_Lg8k7KJ9ZMSQ" />
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="FLEX, FLEX dataset, AQA Dataset, Fitness Dataset, Action Quality Assessment, Surface Electromyography, Knowledge Graphs, Multi-Modal Dataset, Multi-Action Dataset, Fitness Action Quality Assessment, Fitness Action Quality">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>FLEX Dataset</title>
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> --> 
+     <!-- Here: you may change to a favicon! We are using an SVG for faster load times and max quality -->
+  <link rel="icon" type="image/svg" href='static/images/SIBET.png' />
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/code.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <script src="static/js/copy-button.js"></script>
+  <textarea id="hidden-textarea" style="position: absolute; left: -9999px;" aria-hidden="true"></textarea>
+
+
+<!-- Note: comment below if not needed for faster loading -->
+<!-- Syntax highlighting for code cells -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<!-- Math rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">FLEX: A Largescale Multimodal, Multiview Dataset for Learning Structured Representations for Fitness Action Quality Assessment</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://orcid.org/0009-0001-0943-3502" target="_blank">Hao Yin</a><sup>1,2*</sup>,</span>
+              <span class="author-block">
+                <a>Lijun Gu</a><sup>1,2*</sup>,</span>
+              <span class="author-block">
+                <a href="https://paritoshparmar.github.io/" target="_blank">Paritosh Parmar</a><sup>3*</sup></span><br>
+              <span class="author-block">
+                <a>Lin Xu</a><sup>4</sup>,</span>
+              <span class="author-block">
+                <a>Tianxiao Guo</a><sup>5</sup></span><br>
+              <span class="author-block">
+                <a href="https://orcid.org/0000-0001-7192-3118" target="_blank">Weiwei Fu</a><sup>1,2</sup>,</span>
+              <span class="author-block">
+                <a>Yang Zhang</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://orcid.org/0000-0002-2310-2988" target="_blank">Tianyou Zheng</a><sup>2</sup></span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <div><sup>1</sup> School of Biomedical Engineering (Suzhou), Division of Life Sciences and Medicine, USTC</div>
+                <div><sup>2</sup> Suzhou Institute of Biomedical Engineering and Technology, CAS</div>
+                <div><sup>3</sup> Institute of High-Performance Computing, A*STAR</div>
+                <div><sup>4</sup> School of Psychology, Beijing Sports University</div>
+                <div><sup>5</sup> School of Competitive Sports, Beijing Sports University</div>
+                <small><br><sup>*</sup>Indicates Equal Contribution</small>
+                <br> <img src="https://badges.toozhao.com/badges/01JVNNN837B0VMFVDGT55N9NR6/blue.svg" />
+                <br> Under Review-2025
+              </div>
+              
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                    
+                      <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2506.03198.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/HaoYin116/FLEX" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code & Dataset</span>
+                  </a>
+                </span>
+
+                 <!-- Dataset link -->
+                  <span class="link-block">
+                    <a href="https://haoyin116.github.io/Survey_of_AQA/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Survey</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link 
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="static/videos/FigX_Show.mp4"
+        type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Action Quality Assessment (AQA)—the task of quantifying how well an action is performed—has great potential for detecting errors in gym weight training, where accurate feedback is critical to prevent injuries and maximize gains. Existing AQA datasets, however, are limited to single-view competitive sports and RGB video, lacking multimodal signals and professional assessment of fitness actions. We introduce FLEX, the first large-scale, multimodal, multiview dataset for fitness AQA that incorporates surface electromyography (sEMG). FLEX contains over 7,500 multi-view recordings of 20 weight-loaded exercises performed by 38 subjects of diverse skill levels, with synchronized RGB video, 3D pose, sEMG, and physiological signals. Expert annotations are organized into a Fitness Knowledge Graph (FKG) linking actions, key steps, error types, and feedback, supporting a compositional scoring function for interpretable quality assessment. FLEX enables multimodal fusion, cross-modal prediction—including the novel Video→EMG task—and biomechanically oriented representation learning. Building on the FKG, we further introduce FLEX-VideoQA, a structured question–answering benchmark with hierarchical queries that drive cross-modal reasoning in vision–language models. Baseline experiments demonstrate that multimodal inputs, multi-view video, and fine-grained annotations significantly enhance AQA performance. FLEX thus advances AQA toward richer multimodal settings and provides a foundation for AI-powered fitness assessment and coaching.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Image carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        
+      <div class="item has-text-centered">
+          <img src="static/images/Fig1_BigOne_p.png" alt="Overview" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+          FLEX dataset consists of a core group of 38 subjects, each performing 20 different fitness actions, repeating each action 10 times. Each action repeat was recorded from 5 viewpoints, & sEMG signals and physiological parameters (heart rate, breath rate) were simultaneously collected along with videos. The data annotations contain rich text information such as action keysteps (AK), error types (ET), & action feedback.
+          </h2>
+        </div>
+
+        <div class="item has-text-centered">
+          <img src="static/images/Fig2_Collection_p.png" alt="Collection" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+            Four cinema cameras and one smartphone were fixed at the four corners of the collection area. Video, sEMG, heart rate, and breath rate are recorded synchronously during collection.
+          </h2>
+        </div>
+
+      <div class="item has-text-centered">
+          <img src="static/images/Fig3_KG.png" alt="KG" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+            (a) Visualization of frequently used annotation words. (b) FLEX-KG: the structure of the knowledge graph. (c1) Mapping between actions and action knots. (c2) Mapping between action knots and error types.
+          </h2>
+        </div>
+
+              <div class="item has-text-centered">
+          <img src="static/images/Fig4_Rule_p.png" alt="RULE" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+           The annotators we recruited were trained according to the sources of the annotation guidelines and underwent centralized training to ensure they thoroughly understood the rules. The video data was segmented following predetermined criteria, and a two-stage annotation process was implemented to reduce annotation errors and mitigate subjective bias.
+          </h2>
+        </div>
+        
+          <div class="item has-text-centered">
+          <img src="static/images/Fig5_Statistics.png" alt="Sta" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+          (a) Sample number of 20 actions. (b) Average duration and score of 20 actions. (c) Overall score distribution of the dataset and the top 20 most frequent error types.
+          </h2>
+        </div>
+
+        <div class="item has-text-centered">
+            <img src="static/images/FigX_Weight.png" alt="Weight" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+          FLEX comprises 20 weight-loaded fitness actions evenly divided between barbells and dumbbells. For barbells, the intrinsic weight of the bar(20kg) is included in the calculation, whereas for dumbbells, only the single-sided weight is considered. In the figure, the X-axis denotes different subjects, and the Y-axis indicates the various actions. The color intensity reflects differences in weight magnitude, with the darker one corresponding to heavier weights.
+          </h2>
+        </div>
+        
+        <div class="item has-text-centered">
+          <img src="static/images/Fig6_VLM.png" alt="VLM" style="width: 100%; max-width: 800px; height: auto;"/>
+          <h2 class="subtitle">
+           We designed a dialogue template following the pipeline“action recognition→action standards→action evaluation→action scoring, ”with all questions and reference answers automatically generated from our annotation rules and results. In particular, action-evaluation answers were pre-generated by Deepseek V3 by combining video samples, action knots, error types, and feedback suggestions to ensure consistency.
+          </h2>
+        </div>
+        
+  </div>
+</div>
+</div>
+</section>
+<!-- End image carousel -->
+
+
+<!-- Embedded Google Slides 
+<section class="google-slides-section">
+  <div class="google-slides-container">
+    <h2 class="title is-2 has-text-centered mb-6">Google Slides</h2>
+    <div class="responsive-iframe-container">
+      <iframe class="responsive-iframe" src="https://docs.google.com/presentation/d/e/2PACX-1vSxPBfuH2Ydrc3Y1y7YTjGar-IQ-RG6HoTHbQs3sAboDD5tp-aL66-AESeK35P7JmvKJx9GEAgHIvsu/embed?start=false&loop=false&delayms=3000" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+  </div>
+</section>-->
+<!-- End embedded Google Slides -->
+
+
+<!-- Youtube video
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End youtube video -->
+
+
+<!-- Paper poster
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title">Poster</h2>
+
+      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
+          </iframe>
+        
+      </div>
+    </div>
+  </section> -->
+<!--End paper poster -->
+
+
+<!-- BibText citation + copy to clipboard -->
+<section class="section" id="Code">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <div class="code-container">
+      <pre><code class="code-content language-text">
+      @article{yin2025flex,
+      title={FLEX: A Large-Scale Multi-Modal Multi-Action Dataset for Fitness Action Quality Assessment}, 
+      author={Hao Yin, Lijun Gu, Paritosh Parmar, Lin Xu, Tianxiao Guo, Weiwei Fu, Yang Zhang, Tianyou Zheng},
+      journal={arXiv preprint arXiv:2506.03198},
+      year={2025},
+      }
+      </code></pre>
+      <button class="copy-button" aria-label="Copy to clipboard">
+        <svg class="copy-icon" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+        </svg>
+        <svg class="checkmark-icon" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+        </svg>
+      </button>
+      <div class="copy-tooltip">Copy to clipboard</div>
+    </div>
+  </div>
+</section>
+    
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/ai4co/research-project-page-template" target="_blank">Research Project Page Template</a> which is based on 
+            the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> and the 
+            <a href="https://nerfies.github.io" target="_blank">Nerfies project page</a>. You are free to borrow the of this website, we just ask that you link back to this page in the footer.
+            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>
