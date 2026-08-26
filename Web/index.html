@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MyoMechanix: Biomechanically-Grounded Compositional Skilled Activity Understanding and Coaching">
+    <title>MyoMechanix — Biomechanically-Grounded AQA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdfaf6;
+            --surface: #ffffff;
+            --border: #ebe4da;
+            --border-soft: #f2ede5;
+            --text: #2c2416;
+            --text-mid: #5c5546;
+            --text-light: #8c8472;
+            --accent: #b8753e;
+            --accent-deep: #8a4f28;
+            --accent-warm: #f5e6d3;
+            --accent-pale: #fdf7f0;
+            --green: #5a8a6a;
+            --radius: 10px;
+            --radius-sm: 6px;
+            --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+            --shadow-lg: 0 1px 2px rgba(0,0,0,.03), 0 8px 32px rgba(0,0,0,.06);
+            --font-display: 'Crimson Text', 'Georgia', 'Times New Roman', serif;
+            --font-body: 'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+            --font-mono: 'Source Code Pro', 'SF Mono', 'Consolas', monospace;
+            --max: 820px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── Top accent bar ── */
+        .accent-bar {
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-deep), var(--accent), #d4a373, var(--accent), var(--accent-deep));
+        }
+
+        /* ── Navigation ── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(253,250,246,.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .nav-inner {
+            max-width: var(--max);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            height: 54px;
+        }
+        .nav-brand {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--accent-deep);
+            letter-spacing: -0.01em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.15rem;
+            list-style: none;
+        }
+        .nav-links a {
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-mid);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--accent-pale);
+            color: var(--accent);
+        }
+        .nav-toggle { display: none; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-mid); padding: 0.3rem; }
+
+        /* ── Hero ── */
+        .hero {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 4rem 1.5rem 2.5rem;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-pale);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: #1a1410;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.4rem;
+        }
+        .hero h1 em { font-style: italic; color: var(--accent); }
+        .hero .authors-line {
+            font-size: 1rem;
+            color: var(--text-mid);
+            line-height: 1.9;
+        }
+        .hero .authors-line sup { font-size: 0.65rem; color: var(--accent); margin: 0 1px; }
+        .hero .affiliations {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            margin-top: 1.2rem;
+            line-height: 1.8;
+        }
+        .hero .meta {
+            margin-top: 1.6rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem 1.6rem;
+            font-size: 0.82rem;
+            color: var(--text-mid);
+        }
+        .hero .meta span { display: flex; align-items: center; gap: 0.4rem; }
+        .hero .meta .divider { width: 3px; height: 3px; background: var(--border); border-radius: 50%; }
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.4rem;
+            border-radius: 24px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+        .btn-fill {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-fill:hover { background: var(--accent-deep); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(184,117,62,.25); }
+        .btn-ghost {
+            background: #fff;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-ghost:hover { background: var(--accent-pale); border-color: var(--accent); color: var(--accent-deep); }
+
+        /* ── Main Layout ── */
+        .main { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+        /* ── Section ── */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius);
+            padding: 2.2rem 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: box-shadow var(--transition);
+        }
+        .section:hover { box-shadow: var(--shadow-lg); }
+        .section-heading {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1a1410;
+            margin-bottom: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-soft), transparent);
+        }
+        .section-heading .num {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-pale);
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .section h3 {
+            font-family: var(--font-display);
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: #3a3028;
+            margin: 1.6rem 0 0.6rem;
+        }
+        .section h4 {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin: 1.4rem 0 0.5rem;
+        }
+        .section p { margin-bottom: 0.8rem; color: var(--text-mid); text-align: justify; text-align-last: left; }
+
+        /* ── Abstract ── */
+        .abstract-box {
+            background: linear-gradient(135deg, var(--accent-pale), #fffbf5);
+            border: 1px solid var(--accent-warm);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem 1.8rem;
+            margin: 0.5rem 0 1rem;
+        }
+        .abstract-box p {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            color: #4a3f30;
+            line-height: 1.8;
+        }
+
+        /* ── Keywords ── */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.8rem;
+        }
+        .tag {
+            font-size: 0.73rem;
+            font-weight: 500;
+            color: var(--accent-deep);
+            background: var(--accent-pale);
+            padding: 0.2rem 0.75rem;
+            border-radius: 20px;
+            letter-spacing: 0.01em;
+        }
+
+        /* ── TOC ── */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.6rem;
+        }
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.7rem 1rem;
+            background: #fdfaf6;
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .toc-item:hover {
+            background: var(--accent-pale);
+            border-color: var(--accent-warm);
+            color: var(--accent-deep);
+            transform: translateY(-1px);
+        }
+        .toc-item .toc-num {
+            width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ── Figure ── */
+        .fig {
+            text-align: center;
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1.8rem 1.5rem;
+            margin: 1.2rem 0;
+            background: #fdfaf6;
+            transition: var(--transition);
+        }
+        .fig:hover { border-color: var(--accent); background: var(--accent-pale); }
+        .fig img { display: block; width: 100%; max-width: none; height: auto; border-radius: 3px; }
+        .fig-caption {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.7rem;
+            line-height: 1.6;
+        }
+        .fig-caption strong { color: var(--text-mid); }
+
+        /* ── Quote / Insight ── */
+        .insight {
+            background: #faf8f4;
+            border-left: 3px solid var(--accent);
+            padding: 0.9rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            font-style: italic;
+        }
+
+        /* ── Contributions ── */
+        .contrib-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+        .contrib-item {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.9rem 1.1rem;
+            background: #fdfaf6;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        .contrib-item:hover { border-color: var(--accent-warm); background: #fffbf5; }
+        .contrib-icon {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--accent-pale);
+            color: var(--accent);
+            border-radius: 8px;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .contrib-text strong { display: block; font-size: 0.88rem; color: #3a3028; margin-bottom: 0.15rem; }
+        .contrib-text span { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+
+        /* ── Tables ── */
+        .table-wrap { overflow-x: auto; margin: 1rem 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        table th {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.73rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--accent-warm);
+            text-align: center;
+        }
+        table th:first-child { text-align: left; }
+        table td {
+            padding: 0.55rem 0.8rem;
+            border-bottom: 1px solid var(--border-soft);
+            text-align: center;
+            color: var(--text-mid);
+        }
+        table td:first-child { text-align: left; font-weight: 500; }
+        table tbody tr { transition: background var(--transition); }
+        table tbody tr:hover { background: #fdfaf6; }
+        .val-best { font-weight: 700; color: var(--accent-deep) !important; }
+        .val-good { color: var(--green) !important; font-weight: 600; }
+        .row-highlight td { background: var(--accent-pale) !important; font-weight: 600; }
+
+        /* ── Comparison grid ── */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .compare-card {
+            background: #fdfaf6;
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+        }
+        .compare-card .check { font-size: 1.2rem; color: var(--green); }
+        .compare-card .cross { font-size: 1.2rem; color: #c4a0a0; }
+        .compare-card .label { font-size: 0.78rem; color: var(--text-light); margin-top: 0.3rem; }
+        .compare-card .val { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-top: 0.1rem; }
+
+        /* ── BibTeX ── */
+        .bib-wrap { position: relative; }
+        .bib-wrap pre {
+            background: #faf8f4;
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-sm);
+            padding: 1.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .bib-btn {
+            position: absolute;
+            top: 0.6rem; right: 0.6rem;
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.73rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+        .bib-btn:hover { background: var(--accent-pale); border-color: var(--accent); }
+
+        /* ── Stats ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1rem 0.8rem;
+            background: #fdfaf6;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-soft);
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-deep);
+        }
+        .stat-label { font-size: 0.73rem; color: var(--text-light); margin-top: 0.2rem; }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.78rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 2rem; left: 50%;
+            transform: translateX(-50%);
+            background: #3a3028;
+            color: #fff;
+            padding: 0.55rem 1.3rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+        }
+        .toast.show { opacity: 1; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.5rem; }
+            .section { padding: 1.5rem; }
+            .section-heading { font-size: 1.15rem; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 54px; left: 0; right: 0; background: #fff; padding: 0.6rem; border-bottom: 1px solid var(--border-soft); box-shadow: var(--shadow-lg); }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 240px; justify-content: center; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .abstract-box { padding: 1.2rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 2.5rem 1rem 1.5rem; }
+            .hero h1 { font-size: 1.25rem; }
+            .section { padding: 1.2rem; border-radius: 0; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Accent Bar -->
+<div class="accent-bar"></div>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav-inner">
+        <span class="nav-brand">MyoMechanix</span>
+        <button class="nav-toggle" aria-label="Menu" onclick="toggleNav()">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#toc">Contents</a></li>
+            <li><a href="#dataset">Dataset</a></li>
+            <li><a href="#model">Model</a></li>
+            <li><a href="#experiments">Experiments</a></li>
+            <li><a href="#bibtex">BibTeX</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-badge">Under Review</div>
+    <h1>MyoMechanix: <em>Biomechanically-Grounded</em> Compositional Skilled Activity Understanding and Coaching</h1>
+
+    <div class="authors-line">
+        Hao Yin<sup>1,2*</sup> &ensp;·&ensp;
+        Paritosh Parmar<sup>3*</sup><br style="display:none">
+        Lijun Gu<sup>1,2</sup> &ensp;·&ensp;
+        Lin Xu<sup>4</sup> &ensp;·&ensp;
+        Tianxiao Guo<sup>4</sup> &ensp;·&ensp;
+        Xiujin Liu<sup>5</sup><br>
+        Tianyou Zheng<sup>2</sup> &ensp;·&ensp;
+        Yang Zhang<sup>2</sup> &ensp;·&ensp;
+        Weiwei Fu<sup>1,2</sup>
+    </div>
+
+    <div class="affiliations">
+        <sup>1</sup> USTC &emsp; <sup>2</sup> SIBET, CAS &emsp; <sup>3</sup> IHPC, A*STAR, Singapore<br>
+        <sup>4</sup> Beijing Sport University &emsp; <sup>5</sup> Dept. of Robotics, University of Michigan
+    </div>
+
+    <div class="meta">
+        <span>* Equal contribution</span>
+    </div>
+
+    <div class="hero-buttons">
+        <a href="assets/paper/MyoMechanix.pdf" class="btn btn-fill" download>📄 Download Paper (PDF)</a>
+        <a href="https://github.com/HaoYin116/MyoMechanix" class="btn btn-ghost" target="_blank" rel="noopener">💻 GitHub</a>
+        <a href="#bibtex" class="btn btn-ghost">📝 BibTeX</a>
+    </div>
+</header>
+
+<!-- Main -->
+<main class="main">
+
+    <!-- Abstract -->
+    <section class="section" id="abstract">
+        <h2 class="section-heading"><span class="num">§</span> Abstract</h2>
+        <div class="abstract-box">
+            <p>
+                Existing skilled activity understanding / action quality assessment (AQA) datasets and methods face two key limitations: they rely primarily on explicit visual inputs (e.g., RGB and Pose data), <em>overlooking implicit physiological dynamics such as muscle mechanics</em>, and they model actions as monolithic, non-compositional patterns, <em>limiting semantic richness</em>. These constraints hinder fine-grained, biomechanically grounded feedback. To address this, we propose a paradigm that integrates multimodal sensing, structured representations, and compositional reasoning. We introduce <strong>MyoMechanix</strong>, a biomechanically grounded multimodal ecosystem for weight-loaded actions with strong internal–external alignment, enabling faithful coupling between motion and muscle activity. Expert-annotated, it comprises 7,500+ samples of 20 actions from 38 subjects, with synchronized multiview RGB video, 3D pose, sEMG, and additional physiological signals, forming the largest multimodal AQA benchmark to date. Building upon this sensing foundation, we construct the <strong>Fitness Knowledge Graph</strong> (FKG), which organizes annotations from field experts into structured relationships linking actions, phases, key steps, error types, and corrective feedback. This representation supports a compositional scoring and reasoning framework. To capitalize on the multimodal richness and structured representations, we develop a new modeling paradigm, <strong>CUBIST</strong> (Compositional Ontological Reasoning Engine), a framework that performs decomposition–analysis–recomposition over structured actions to enable fine-grained error attribution and feedback generation. We further establish the <strong>MyoMechanix-AQA</strong> benchmark and <strong>MyoMechanix-VideoQA</strong>, supporting tasks ranging from action quality assessment to error diagnosis and cross-modal reasoning, including a novel <strong>Video2EMG</strong> task. Extensive experiments demonstrate that CUBIST achieves state-of-the-art performance, multimodal fusion yields decisive gains, and the benchmarks present substantial room for future improvement.
+            </p>
+        </div>
+        <div class="tags">
+            <span class="tag">Interpretable AQA</span>
+            <span class="tag">Physical Skills Assessment</span>
+            <span class="tag">Video Understanding</span>
+            <span class="tag">AI-driven Coaching</span>
+            <span class="tag">Fitness</span>
+            <span class="tag">sEMG</span>
+            <span class="tag">Physical AI</span>
+        </div>
+    </section>
+
+    <!-- TOC -->
+    <section class="section" id="toc">
+        <h2 class="section-heading"><span class="num">§</span> Contents</h2>
+        <div class="toc-grid">
+            <a href="#intro" class="toc-item"><span class="toc-num">1</span> Introduction</a>
+            <a href="#related" class="toc-item"><span class="toc-num">2</span> Related Work</a>
+            <a href="#dataset" class="toc-item"><span class="toc-num">3</span> MyoMechanix Dataset</a>
+            <a href="#model" class="toc-item"><span class="toc-num">4</span> CUBIST Model</a>
+            <a href="#experiments" class="toc-item"><span class="toc-num">5</span> Experiments</a>
+            <a href="#conclusion" class="toc-item"><span class="toc-num">6</span> Conclusion</a>
+        </div>
+    </section>
+
+    <!-- 1. Introduction -->
+    <section class="section" id="intro">
+        <h2 class="section-heading"><span class="num">1</span> Introduction &amp; Motivation</h2>
+        <p>
+            Human motion is fundamentally governed by the neuromuscular system, in which observable kinematics emerge from complex coordination patterns of muscle activation. Due to the redundancy of the musculoskeletal system, visually similar movements can arise from substantially different internal control strategies — some of which may compromise safety and performance. Existing Action Quality Assessment (AQA) research remains limited: it primarily concentrates on exteroceptive visual inputs, struggles to capture implicit physiological states, treats actions as monolithic patterns, and relies on datasets with inconsistent quality and coarse-grained annotations.
+        </p>
+
+        <div class="insight">
+            "Effective assessment requires both physiological grounding and structured representations that capture the compositional nature of human actions."
+        </div>
+
+        <h3>Core Contributions</h3>
+        <ul class="contrib-list">
+            <li class="contrib-item">
+                <div class="contrib-icon">📊</div>
+                <div class="contrib-text">
+                    <strong>MyoMechanix Dataset</strong>
+                    <span>7,500+ samples across 20 weight-loaded actions from 38 subjects — synchronized 5-view RGB video, 3D pose, sEMG, heart rate &amp; respiratory rate. The largest multimodal AQA benchmark.</span>
+                </div>
+            </li>
+            <li class="contrib-item">
+                <div class="contrib-icon">🧠</div>
+                <div class="contrib-text">
+                    <strong>Fitness Knowledge Graph (FKG)</strong>
+                    <span>Formalizes actions as structured representations — decomposing each into hierarchical phases, ordered key steps (AKs), error types (ETs), and corrective feedback (FBs). Enables compositional, penalty-based scoring.</span>
+                </div>
+            </li>
+            <li class="contrib-item">
+                <div class="contrib-icon">🎯</div>
+                <div class="contrib-text">
+                    <strong>CUBIST Model</strong>
+                    <span>Compositional Ontological Reasoning Engine — performs decomposition→analysis→recomposition over structured actions, producing interpretable error attribution and corrective feedback.</span>
+                </div>
+            </li>
+            <li class="contrib-item">
+                <div class="contrib-icon">🏆</div>
+                <div class="contrib-text">
+                    <strong>Three Benchmarks</strong>
+                    <span>MyoMechanix-AQA (4 split protocols), MyoMechanix-VideoQA (30,048 QA pairs), and Video2EMG — a novel cross-modal task predicting muscle activity from video.</span>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Overview Figure -->
+    <section class="section" id="overview">
+        <h2 class="section-heading"><span class="num">★</span> System Overview</h2>
+        <div class="fig">
+            <img src="assets/images/Fig_Intro_Overview.png" alt="MyoMechanix system overview">
+            <div class="fig-caption">
+                <strong>Figure 1.</strong> An overview of our MyoMechanix ecosystem. We advance fitness activity understanding along two complementary dimensions: physical fidelity (multimodal sensing with sEMG) and semantic richness (FKG-structured representations).
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Related Work -->
+    <section class="section" id="related">
+        <h2 class="section-heading"><span class="num">2</span> Related Work</h2>
+        <p>
+            We comprehensively compare MyoMechanix with prior art across four areas: Action Quality Assessment Datasets &amp; Models, Video Question Answering Datasets, Electromyography Datasets, and Muscle Activity Estimation. Existing AQA datasets suffer from: lack of physiological signals, insufficient diversity in ability levels, lack of intermediate structured reasoning, and a scientific blind spot in load-based movement modeling.
+        </p>
+        <div class="compare-grid">
+            <div class="compare-card">
+                <div class="label">Physiological Signals</div>
+                <div class="val">sEMG + HR + RR</div>
+                <div class="check" style="font-size:0.8rem;color:var(--green);font-weight:600">✓ Unique to MyoMechanix</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Video Views</div>
+                <div class="val">5 Views</div>
+                <div class="check" style="font-size:0.8rem;color:var(--accent);font-weight:600">4 Cinema + Phone</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Ability Levels</div>
+                <div class="val">3 Tiers</div>
+                <div class="check" style="font-size:0.8rem;color:var(--green);font-weight:600">Novice · Amateur · Expert</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Exercise Type</div>
+                <div class="val">Weight-Loaded</div>
+                <div class="check" style="font-size:0.8rem;color:var(--accent);font-weight:600">20 Compound Actions</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Structured Reasoning</div>
+                <div class="val">FKG Ontology</div>
+                <div class="check" style="font-size:0.8rem;color:var(--green);font-weight:600">Phase-Aware Scoring</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">VideoQA + Feedback</div>
+                <div class="val">30,048 Pairs</div>
+                <div class="check" style="font-size:0.8rem;color:var(--accent);font-weight:600">First-of-its-kind</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Video2EMG</div>
+                <div class="val">Novel Task</div>
+                <div class="check" style="font-size:0.8rem;color:var(--green);font-weight:600">Cross-Modal Prediction</div>
+            </div>
+            <div class="compare-card">
+                <div class="label">Total Samples</div>
+                <div class="val">7,512</div>
+                <div class="check" style="font-size:0.8rem;color:var(--accent);font-weight:600">38 Subjects</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Dataset -->
+    <section class="section" id="dataset">
+        <h2 class="section-heading"><span class="num">3</span> MyoMechanix Dataset</h2>
+
+        <h3>Design Principles</h3>
+        <p>
+            MyoMechanix focuses on <strong>weight-loaded compound exercises</strong> — 20 representative actions selected to cover both upper- and lower-body muscle groups, involve complex and injury-prone joints (shoulders, knees, hips), include free-weight actions requiring stabilization, and represent widely practiced exercises. <strong>10 barbell + 10 dumbbell</strong> exercises ensure balanced evaluation across equipment types.
+        </p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_App_AllAction.png" alt="Twenty representative weight-loaded actions">
+            <div class="fig-caption"><strong>Figure 2.</strong> The 20 representative weight-loaded actions collected in MyoMechanix.</div>
+        </div>
+
+        <h3>Multimodal Data Collection</h3>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-num">5</div>
+                <div class="stat-label">Camera Views<br>(4 Cinema + 1 Phone)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">16</div>
+                <div class="stat-label">sEMG Channels<br>@ 2,000 Hz</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">38</div>
+                <div class="stat-label">Subjects<br>(10 Expert · 8 Amateur · 20 Novice)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">7,512</div>
+                <div class="stat-label">Action Samples<br>40+ Hours Recording</div>
+            </div>
+        </div>
+
+        <h3>Fitness Knowledge Graph (FKG)</h3>
+        <p>
+            The FKG provides an ontology-like representation that formalizes weight-training exercises as biomechanically phased action representations. Each exercise is decomposed into three phases — <strong>Preparation</strong>, <strong>Concentric</strong>, and <strong>Eccentric</strong> — with ordered action key steps (AKs), phase-conditioned error types (ETs), and corresponding corrective feedback (FBs). Error severity is hierarchically weighted: joint safety (9–10), core stability (7–9), foundational posture (6–7), fine control (5), breathing (2).
+        </p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_Dataset_Annot_KG.png" alt="Fitness Knowledge Graph relationships">
+            <div class="fig-caption"><strong>Figure 3.</strong> Entity relationships within the Fitness Knowledge Graph — mapping actions → key steps → error types.</div>
+        </div>
+
+        <h3>Compositional Scoring</h3>
+        <p>
+            The overall score is computed bottom-up:
+            <strong style="font-family:var(--font-display);font-size:1.05rem;">S = [1 − ΣW<sub>observed</sub> / ΣW<sub>max</sub>] × 100</strong>.
+            This system separates mathematical complexity from annotation, ensuring both rapid labeling and full interpretability — in stark contrast to opaque holistic scoring approaches.
+        </p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_Dataset_Annot_Score.png" alt="Compositional scoring process">
+            <div class="fig-caption"><strong>Figure 4.</strong> Compositional scoring process for Barbell Overhead Press — individual errors map to score deductions, yielding a final transparent score of 77.02.</div>
+        </div>
+
+        <h3>Annotation Statistics</h3>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-num">68.15</div>
+                <div class="stat-label">Mean Quality Score<br>(Range: 20–100)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">192.27</div>
+                <div class="stat-label">Avg. Words / Sample<br>(10.05 Sentences)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">1.85</div>
+                <div class="stat-label">Reasoning Steps<br>Per Sample</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">8.41</div>
+                <div class="stat-label">Actionable Suggestions<br>Per Sample</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Model -->
+    <section class="section" id="model">
+        <h2 class="section-heading"><span class="num">4</span> CUBIST Modeling Paradigm</h2>
+        <p>
+            CUBIST (Compositional Ontological Reasoning Engine) is inspired by the Cubist art movement's principle of decomposing complex objects, examining each part from multiple viewpoints, and recombining them to reveal underlying structure. It moves beyond monolithic black-box scoring toward <strong>interpretable, step-wise reasoning</strong> that closely reflects expert analysis.
+        </p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_Mod_Str.png" alt="CUBIST model architecture">
+            <div class="fig-caption"><strong>Figure 5.</strong> CUBIST model architecture (multimodal version) for the AQA task.</div>
+        </div>
+
+        <h3>Three-Stage Progressive Design</h3>
+        <div class="insight">
+            Stage I → Action Perception &amp; Expert Routing → Stage II → Ontology-driven Error Reasoning → Stage III → Compositional Scoring
+        </div>
+        <p><strong>Stage I — Action Perception-driven Expert Routing:</strong> A spatiotemporal video encoder with attention-based pooling classifies the action and routes the input to the appropriate action-specific expert network. Built on a ViT backbone with trilinear-interpolated positional encoding for up to 103-frame videos.</p>
+        <p><strong>Stage II — Ontology-driven Error Reasoning:</strong> A temporal adapter recovers native spatiotemporal topology, an implicit phase parser discovers action phases without manual annotations, and a phase-aware error query decoder uses Mixture-of-Experts (MoE) architecture to predict fine-grained error probabilities. Asymmetric loss handles the high-dimensional, sparse multi-label nature of error detection.</p>
+        <p><strong>Stage III — Compositional Scoring Engine:</strong> A deterministic neuro-symbolic module that applies annotation-defined error weights and the compositional scoring formula — <em>introducing zero additional learnable parameters</em>. The final score is directly attributable to interpretable error concepts, improving transparency at both reasoning and output levels.</p>
+
+        <h3>Multimodal Fusion Strategy</h3>
+        <p>
+            CUBIST employs a <strong>feature-disentangled late-fusion</strong> design that avoids prematurely forcing heterogeneous modalities (RGB, 3D Pose, sEMG) into a shared representation space. Each modality develops task-relevant representations independently before integration, preserving modality-specific discriminative characteristics while reducing cross-modal gradient interference.
+        </p>
+    </section>
+
+    <!-- 5. Experiments -->
+    <section class="section" id="experiments">
+        <h2 class="section-heading"><span class="num">5</span> Experiments &amp; Results</h2>
+
+        <h3>Three Benchmark Tasks</h3>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-num">AQA</div>
+                <div class="stat-label">Action Quality Assessment<br>4 Split Protocols</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">VideoQA</div>
+                <div class="stat-label">30,048 QA Pairs<br>4 Reasoning Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">Video2EMG</div>
+                <div class="stat-label">Cross-Modal Prediction<br>Novel Task</div>
+            </div>
+        </div>
+
+        <h3>AQA Results — Vanilla Split</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Method</th><th>Modality</th><th>ρ ↑</th><th>R-ℓ₂ ↓</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>I3D-MLP</td><td>RGB</td><td>0.4817</td><td>5.4521</td></tr>
+                    <tr><td>CoRe</td><td>RGB</td><td>0.6832</td><td>3.2745</td></tr>
+                    <tr><td>TPT</td><td>RGB</td><td>0.6904</td><td>3.2734</td></tr>
+                    <tr><td>HGCN</td><td>RGB</td><td>0.6817</td><td>3.0156</td></tr>
+                    <tr><td>MCoRe</td><td>RGB</td><td>0.6984</td><td>3.0156</td></tr>
+                    <tr><td>T2CR</td><td>RGB</td><td>0.7217</td><td>2.8233</td></tr>
+                    <tr><td>DAE</td><td>RGB</td><td class="val-good">0.7431</td><td class="val-good">2.6500</td></tr>
+                    <tr class="row-highlight"><td>CUBIST (Ours)</td><td>RGB</td><td class="val-best">0.7829</td><td class="val-best">2.1542</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-light);text-align:center;">CUBIST achieves new SOTA on unimodal RGB evaluation.</p>
+
+        <h3>AQA Results — Multimodal Fusion</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Configuration</th><th>Modalities</th><th>ρ ↑</th><th>R-ℓ₂ ↓</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>DAE (SV)</td><td>RGB</td><td>0.7431</td><td>2.6500</td></tr>
+                    <tr><td>SV + Pose</td><td>RGB + Pose</td><td class="val-good">0.7954</td><td class="val-good">2.1002</td></tr>
+                    <tr><td>SV + Pose + EMG</td><td>Full (Single View)</td><td class="val-good">0.8297</td><td class="val-good">1.8210</td></tr>
+                    <tr><td>DAE (MV)</td><td>Multi-View RGB</td><td class="val-good">0.7861</td><td class="val-good">2.4320</td></tr>
+                    <tr><td>MV + Pose + EMG</td><td>Full (Multi-View)</td><td class="val-good">0.8561</td><td class="val-good">1.5492</td></tr>
+                    <tr class="row-highlight"><td>CUBIST (MV + Pose + EMG)</td><td>All Modalities</td><td class="val-best">0.8836</td><td class="val-best">0.7418</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-light);text-align:center;">Progressive multimodal fusion yields consistent gains. CUBIST(MV+Pose+EMG): +18.91% ρ over DAE, +12.86% over unimodal CUBIST.</p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_Exp_CUBIST_Squat.png" alt="CUBIST qualitative comparison">
+            <div class="fig-caption"><strong>Figure 6.</strong> Qualitative comparison of CUBIST against baseline methods on the AQA task.</div>
+        </div>
+
+        <h3>VideoQA Results</h3>
+        <p>
+            Fine-tuning Qwen2.5-VL-3B (LoRA) achieves substantial gains: BLEU 0.0415 → <strong>0.1970</strong>, CHRF++ 39.53 → <strong>52.00</strong>. However, score prediction accuracy remains challenging — R-ℓ₂ error decreases by <strong>less than 2%</strong>, suggesting that numerical reasoning in VLMs remains a significant open problem. Current VLMs still have ~50% room for improvement in text generation and up to 80% in score prediction.
+        </p>
+
+        <h3>Video2EMG Results</h3>
+        <p>
+            The best configuration (ViT + SVR) achieves MAE = <strong>0.1465</strong>, RMSE = <strong>0.1882</strong>, CCP = <strong>0.4345</strong> (moderate waveform alignment). Performance degrades significantly under cross-subject and cross-view protocols, highlighting the difficulty of cross-modal physiological inference — leaving approximately 56% room for future improvement.
+        </p>
+
+        <div class="fig">
+            <img src="assets/images/Fig_Exp_V2E_Com.png" alt="Video2EMG qualitative results">
+            <div class="fig-caption"><strong>Figure 7.</strong> Qualitative results of Video2EMG — predicted vs. ground truth sEMG waveforms.</div>
+        </div>
+    </section>
+
+    <!-- 6. Conclusion -->
+    <section class="section" id="conclusion">
+        <h2 class="section-heading"><span class="num">6</span> Conclusion</h2>
+        <p>
+            We introduced MyoMechanix, a biomechanically grounded multimodal ecosystem for skilled activity understanding and coaching, establishing a compositional paradigm for action quality assessment that moves beyond purely visual, monolithic action modeling. Three key findings: (i) effective AQA benefits from integrating latent biomechanical signals with visible motion cues; (ii) language-grounded reasoning over structured action knowledge enhances fine-grained VLM understanding; and (iii) promising Video2EMG results suggest a path toward estimating muscle dynamics from accessible visual observations. Despite these advances, MyoMechanix remains a challenging benchmark, motivating future research in cross-subject generalization, richer causal biomechanical modeling, and integration with embodied systems.
+        </p>
+        <h3>Acknowledgement</h3>
+        <p style="font-size:0.85rem;color:var(--text-light);">
+            Supported by the Suzhou Basic Scientific Research Project (SSD2024013), the Doctoral Student Program of the Young S&T Talents Cultivation Project, CAST. Fast Move Technology is especially acknowledged for providing sEMG devices.
+        </p>
+    </section>
+
+    <!-- BibTeX -->
+    <section class="section" id="bibtex">
+        <h2 class="section-heading"><span class="num">§</span> BibTeX Citation</h2>
+        <p style="margin-bottom:1rem;">If you find this work useful, please cite:</p>
+        <div class="bib-wrap">
+            <button class="bib-btn" onclick="copyBibtex()">📋 Copy</button>
+            <pre id="bibtexText">@article{yin2026myomechanix,
+  title     = {MyoMechanix: Biomechanically-Grounded Compositional
+               Skilled Activity Understanding and Coaching},
+  author    = {Yin, Hao and Parmar, Paritosh and Gu, Lijun and
+               Xu, Lin and Guo, Tianxiao and Liu, Xiujin and
+               Zheng, Tianyou and Zhang, Yang and Fu, Weiwei},
+  journal   = {Under Review},
+  year      = {2026},
+  url       = {https://github.com/HaoYin116/MyoMechanix}
+}</pre>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>MyoMechanix Project · Under Review · CC BY-NC 4.0</p>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+    function toggleNav() {
+        document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('#navLinks a').forEach(l => {
+        l.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+    function copyBibtex() {
+        navigator.clipboard.writeText(document.getElementById('bibtexText').innerText).then(() => {
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        });
+    }
+    // Scroll spy
+    const secs = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+        let cur = '';
+        secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    });
+</script>
+</body>
+</html>
